@@ -1,0 +1,2 @@
+import java.util.*;
+public class FirstNonRepeatingCharacter { public static void main(String[] args) { Scanner sc = new Scanner(System.in); System.out.print("Enter word: "); String word = sc.nextLine(); Map<Character, Integer> count = new LinkedHashMap<>(); for (char ch : word.toCharArray()) count.put(ch, count.getOrDefault(ch, 0) + 1); for (Map.Entry<Character, Integer> e : count.entrySet()) if (e.getValue() == 1) { System.out.println(e.getKey()); sc.close(); return; } System.out.println("No non-repeating character"); sc.close(); } }

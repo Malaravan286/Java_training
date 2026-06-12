@@ -1,0 +1,2 @@
+import java.util.*;
+public class StudentComparableDemo { static class Student implements Comparable<Student> { String name; int marks; Student(String name, int marks) { this.name = name; this.marks = marks; } public int compareTo(Student other) { return this.marks - other.marks; } public String toString() { return name + " " + marks; } } public static void main(String[] args) { List<Student> list = new ArrayList<>(); list.add(new Student("Ravi", 80)); list.add(new Student("Meena", 95)); Collections.sort(list); System.out.println(list); } }

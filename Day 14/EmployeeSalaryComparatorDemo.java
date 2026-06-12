@@ -1,0 +1,2 @@
+import java.util.*;
+public class EmployeeSalaryComparatorDemo { static class Employee { String name; double salary; Employee(String name, double salary) { this.name = name; this.salary = salary; } public String toString() { return name + " " + salary; } } public static void main(String[] args) { List<Employee> employees = new ArrayList<>(); employees.add(new Employee("Anu", 45000)); employees.add(new Employee("Bala", 52000)); employees.sort(Comparator.comparingDouble(e -> e.salary)); System.out.println(employees); } }

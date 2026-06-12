@@ -1,0 +1,1 @@
+public class LambdaFunctionalInterfaceDemo { @FunctionalInterface interface MessagePrinter { void print(String message); } public static void main(String[] args) { MessagePrinter printer = message -> System.out.println("Message: " + message); printer.print("Learning lambda expressions"); } }

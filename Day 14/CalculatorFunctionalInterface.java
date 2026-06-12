@@ -1,0 +1,2 @@
+import java.util.*;
+public class CalculatorFunctionalInterface { @FunctionalInterface interface Calculator { int operate(int a, int b); } public static void main(String[] args) { Scanner sc = new Scanner(System.in); System.out.print("Enter two numbers: "); int a = sc.nextInt(); int b = sc.nextInt(); Calculator add = (x, y) -> x + y; Calculator multiply = (x, y) -> x * y; System.out.println("Sum: " + add.operate(a, b)); System.out.println("Product: " + multiply.operate(a, b)); sc.close(); } }

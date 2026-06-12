@@ -1,0 +1,2 @@
+import java.util.function.*;
+public class FunctionalInterfacesDemo { public static void main(String[] args) { Predicate<Integer> isEven = n -> n % 2 == 0; Function<String, String> upper = text -> text.toUpperCase(); Consumer<String> printer = text -> System.out.println(text); Supplier<String> supplier = () -> "Functional interfaces are useful"; printer.accept("Even 10? " + isEven.test(10)); printer.accept(upper.apply(supplier.get())); } }

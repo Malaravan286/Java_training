@@ -1,0 +1,2 @@
+import java.util.*;
+public class SetComparisonDemo { public static void main(String[] args) { Set<String> hashSet = new HashSet<>(Arrays.asList("Banana", "Apple", "Mango")); Set<String> linkedHashSet = new LinkedHashSet<>(Arrays.asList("Banana", "Apple", "Mango")); Set<String> treeSet = new TreeSet<>(hashSet); System.out.println("HashSet: " + hashSet); System.out.println("LinkedHashSet: " + linkedHashSet); System.out.println("TreeSet: " + treeSet); } }

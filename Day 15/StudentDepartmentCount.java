@@ -1,0 +1,2 @@
+import java.util.*; import java.util.stream.*;
+public class StudentDepartmentCount { static class Student { String name, department; Student(String name, String department) { this.name = name; this.department = department; } } public static void main(String[] args) { List<Student> students = Arrays.asList(new Student("Ravi", "CSE"), new Student("Meena", "ECE"), new Student("John", "CSE")); Map<String, Long> count = students.stream().collect(Collectors.groupingBy(s -> s.department, Collectors.counting())); System.out.println(count); } }
