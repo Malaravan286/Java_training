@@ -1,35 +1,36 @@
-interface Notification {
-    void send(String message);
-}
-
-class EmailNotification implements Notification {
-    public void send(String message) {
-        System.out.println("Email sent: " + message);
-    }
-}
-
-class SmsNotification implements Notification {
-    public void send(String message) {
-        System.out.println("SMS sent: " + message);
-    }
-}
-
-class PushNotification implements Notification {
-    public void send(String message) {
-        System.out.println("Push notification sent: " + message);
-    }
-}
+import java.util.*;
 
 public class NotificationSystem {
-    public static void main(String[] args) {
-        Notification[] notifications = {
-            new EmailNotification(),
-            new SmsNotification(),
-            new PushNotification()
-        };
+    interface Operation {
+        void execute(String input);
+    }
 
-        for (Notification notification : notifications) {
-            notification.send("Your placement test starts tomorrow.");
+    static class PrimaryOperation implements Operation {
+        public void execute(String input) {
+            System.out.println("Primary Notification System service processed: " + input);
         }
+    }
+
+    static class SecondaryOperation implements Operation {
+        public void execute(String input) {
+            System.out.println("Secondary Notification System service processed with priority: " + input);
+        }
+    }
+
+    static void runOperation(Operation operation, String input) {
+        operation.execute(input);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Notification System");
+        System.out.print("Enter request details: ");
+        String details = scanner.nextLine();
+        System.out.print("Choose service type (1-primary, 2-secondary): ");
+        int choice = scanner.nextInt();
+
+        Operation operation = choice == 2 ? new SecondaryOperation() : new PrimaryOperation();
+        // Runtime polymorphism chooses the correct execute method.
+        runOperation(operation, details);
     }
 }

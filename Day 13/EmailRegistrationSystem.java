@@ -1,46 +1,29 @@
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class EmailRegistrationSystem {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Set<String> emails = new HashSet<>();
+        HashSet<String> uniqueItems = new HashSet<>();
+        LinkedHashSet<String> insertionOrder = new LinkedHashSet<>();
+        TreeSet<String> sortedItems = new TreeSet<>();
+        HashMap<String, Integer> counts = new HashMap<>();
 
-        while (true) {
-            System.out.println("\n--- Email Registration System ---");
-            System.out.println("1. Register Email");
-            System.out.println("2. Check Email");
-            System.out.println("3. View Registered Emails");
-            System.out.println("4. Exit");
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter email: ");
-                    String email = scanner.nextLine();
-                    if (emails.add(email)) {
-                        System.out.println("Email registered.");
-                    } else {
-                        System.out.println("Email already registered.");
-                    }
-                    break;
-                case 2:
-                    System.out.print("Enter email to check: ");
-                    System.out.println("Registered: " + emails.contains(scanner.nextLine()));
-                    break;
-                case 3:
-                    System.out.println("Registered emails: " + emails);
-                    break;
-                case 4:
-                    System.out.println("Exiting...");
-                    scanner.close();
-                    return;
-                default:
-                    System.out.println("Invalid choice.");
-            }
+        System.out.println("Email Registration System");
+        System.out.print("How many values do you want to enter? ");
+        int n = Integer.parseInt(scanner.nextLine());
+        for (int i = 1; i <= n; i++) {
+            System.out.print("Enter value " + i + ": ");
+            String value = scanner.nextLine();
+            uniqueItems.add(value);
+            insertionOrder.add(value);
+            sortedItems.add(value);
+            counts.put(value, counts.getOrDefault(value, 0) + 1);
         }
+
+        // Different collections show uniqueness, insertion order, sorting, and frequency.
+        System.out.println("HashSet unique values: " + uniqueItems);
+        System.out.println("LinkedHashSet insertion order: " + insertionOrder);
+        System.out.println("TreeSet sorted values: " + sortedItems);
+        System.out.println("HashMap counts: " + counts);
     }
 }

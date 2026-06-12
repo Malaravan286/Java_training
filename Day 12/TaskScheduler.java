@@ -1,46 +1,47 @@
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public class TaskScheduler {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Queue<String> tasks = new LinkedList<>();
+        List<String> list = new ArrayList<>();
+        Queue<String> queue = new LinkedList<>();
+        int choice;
 
-        while (true) {
-            System.out.println("\n--- Task Scheduler ---");
-            System.out.println("1. Add Task");
-            System.out.println("2. Process Next Task");
-            System.out.println("3. View Pending Tasks");
-            System.out.println("4. Exit");
-            System.out.print("Enter your choice: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine();
-
+        System.out.println("Task Scheduler");
+        do {
+            System.out.println("1 Add item  2 Insert at index  3 Add to queue  4 Process queue  5 Display  0 Exit");
+            System.out.print("Enter choice: ");
+            choice = Integer.parseInt(scanner.nextLine());
             switch (choice) {
                 case 1:
-                    System.out.print("Enter task name: ");
-                    tasks.add(scanner.nextLine());
-                    System.out.println("Task added.");
+                    System.out.print("Enter item: ");
+                    list.add(scanner.nextLine());
                     break;
                 case 2:
-                    String task = tasks.poll();
-                    if (task == null) {
-                        System.out.println("No pending tasks.");
-                    } else {
-                        System.out.println("Processing task: " + task);
-                    }
+                    System.out.print("Enter index: ");
+                    int index = Integer.parseInt(scanner.nextLine());
+                    System.out.print("Enter item: ");
+                    String item = scanner.nextLine();
+                    if (index >= 0 && index <= list.size()) list.add(index, item);
+                    else System.out.println("Invalid index");
                     break;
                 case 3:
-                    System.out.println("Pending tasks: " + tasks);
+                    System.out.print("Enter queue item: ");
+                    queue.offer(scanner.nextLine());
                     break;
                 case 4:
-                    System.out.println("Exiting...");
-                    scanner.close();
-                    return;
+                    System.out.println(queue.isEmpty() ? "Queue is empty" : "Processed: " + queue.poll());
+                    break;
+                case 5:
+                    System.out.println("List: " + list);
+                    System.out.println("Queue: " + queue);
+                    break;
+                case 0:
+                    System.out.println("Program ended");
+                    break;
                 default:
-                    System.out.println("Invalid choice.");
+                    System.out.println("Invalid choice");
             }
-        }
+        } while (choice != 0);
     }
 }

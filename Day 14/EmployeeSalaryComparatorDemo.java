@@ -1,40 +1,52 @@
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-class Employee {
-    private int id;
-    private String name;
-    private double salary;
-
-    Employee(int id, String name, double salary) {
-        this.id = id;
-        this.name = name;
-        this.salary = salary;
-    }
-
-    double getSalary() {
-        return salary;
-    }
-
-    @Override
-    public String toString() {
-        return id + " - " + name + " - " + salary;
-    }
-}
+import java.util.*;
+import java.util.function.*;
 
 public class EmployeeSalaryComparatorDemo {
-    public static void main(String[] args) {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "Ravi", 45000));
-        employees.add(new Employee(2, "Meena", 55000));
-        employees.add(new Employee(3, "John", 40000));
+    static class Student implements Comparable<Student> {
+        String name;
+        int marks;
 
-        employees.sort(Comparator.comparingDouble(Employee::getSalary));
-
-        System.out.println("Employees sorted by salary:");
-        for (Employee employee : employees) {
-            System.out.println(employee);
+        Student(String name, int marks) {
+            this.name = name;
+            this.marks = marks;
         }
+
+        public int compareTo(Student other) {
+            return this.name.compareTo(other.name);
+        }
+
+        public String toString() {
+            return name + "-" + marks;
+        }
+    }
+
+    @FunctionalInterface
+    interface Calculator {
+        int calculate(int a, int b);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Student> students = new ArrayList<>();
+        System.out.println("Employee Salary Comparator Demo");
+        for (int i = 1; i <= 3; i++) {
+            System.out.print("Enter student name: ");
+            String name = scanner.nextLine();
+            System.out.print("Enter marks: ");
+            int marks = Integer.parseInt(scanner.nextLine());
+            students.add(new Student(name, marks));
+        }
+
+        Collections.sort(students);
+        System.out.println("Sorted by name using Comparable: " + students);
+
+        students.sort(Comparator.comparingInt(s -> s.marks));
+        System.out.println("Sorted by marks using Comparator and lambda: " + students);
+
+        Calculator add = (a, b) -> a + b;
+        Predicate<Student> passed = s -> s.marks >= 50;
+        Consumer<Student> printer = s -> System.out.println(s.name + " pass status: " + passed.test(s));
+        System.out.println("10 + 20 = " + add.calculate(10, 20));
+        students.forEach(printer);
     }
 }

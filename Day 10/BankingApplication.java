@@ -1,59 +1,61 @@
-class BankAccount {
-    private String accountHolder;
-    private double balance;
-
-    BankAccount(String accountHolder, double balance) {
-        this.accountHolder = accountHolder;
-        this.balance = balance;
-    }
-
-    public String getAccountHolder() {
-        return accountHolder;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public void deposit(double amount) {
-        balance = balance + amount;
-    }
-
-    public void showAccountType() {
-        System.out.println("General bank account");
-    }
-}
-
-class SavingsAccount extends BankAccount {
-    SavingsAccount(String accountHolder, double balance) {
-        super(accountHolder, balance);
-    }
-
-    public void showAccountType() {
-        System.out.println(getAccountHolder() + " has a savings account. Balance: Rs." + getBalance());
-    }
-}
-
-class CurrentAccount extends BankAccount {
-    CurrentAccount(String accountHolder, double balance) {
-        super(accountHolder, balance);
-    }
-
-    public void showAccountType() {
-        System.out.println(getAccountHolder() + " has a current account. Balance: Rs." + getBalance());
-    }
-}
+import java.util.*;
 
 public class BankingApplication {
-    public static void main(String[] args) {
-        BankAccount[] accounts = {
-            new SavingsAccount("Arun", 10000),
-            new CurrentAccount("Divya", 50000)
-        };
+    static class ServiceItem {
+        private String name;
+        private double amount;
 
-        for (BankAccount account : accounts) {
-            account.deposit(1000);
-            account.showAccountType();
+        ServiceItem(String name, double amount) {
+            this.name = name;
+            this.amount = amount;
         }
+
+        String getName() { return name; }
+        double getAmount() { return amount; }
+
+        double calculateFinalAmount() {
+            return amount;
+        }
+
+        void printBill() {
+            System.out.println(name + " final amount: Rs." + calculateFinalAmount());
+        }
+    }
+
+    static class RegularItem extends ServiceItem {
+        RegularItem(String name, double amount) {
+            super(name, amount);
+        }
+
+        @Override
+        double calculateFinalAmount() {
+            return getAmount();
+        }
+    }
+
+    static class PremiumItem extends ServiceItem {
+        PremiumItem(String name, double amount) {
+            super(name, amount);
+        }
+
+        @Override
+        double calculateFinalAmount() {
+            return getAmount() * 0.90;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Banking Application");
+        System.out.print("Enter customer/user name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter base amount: ");
+        double amount = scanner.nextDouble();
+        System.out.print("Choose type (1-regular, 2-premium): ");
+        int type = scanner.nextInt();
+
+        ServiceItem item = type == 2 ? new PremiumItem(name, amount) : new RegularItem(name, amount);
+        // The overridden method is selected at runtime.
+        item.printBill();
     }
 }

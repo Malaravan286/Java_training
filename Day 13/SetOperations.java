@@ -1,39 +1,29 @@
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class SetOperations {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Set<Integer> firstSet = readSet(scanner, "first");
-        Set<Integer> secondSet = readSet(scanner, "second");
+        HashSet<String> uniqueItems = new HashSet<>();
+        LinkedHashSet<String> insertionOrder = new LinkedHashSet<>();
+        TreeSet<String> sortedItems = new TreeSet<>();
+        HashMap<String, Integer> counts = new HashMap<>();
 
-        Set<Integer> union = new HashSet<>(firstSet);
-        union.addAll(secondSet);
-
-        Set<Integer> intersection = new HashSet<>(firstSet);
-        intersection.retainAll(secondSet);
-
-        Set<Integer> difference = new HashSet<>(firstSet);
-        difference.removeAll(secondSet);
-
-        System.out.println("First Set: " + firstSet);
-        System.out.println("Second Set: " + secondSet);
-        System.out.println("Union: " + union);
-        System.out.println("Intersection: " + intersection);
-        System.out.println("Difference (First - Second): " + difference);
-        scanner.close();
-    }
-
-    private static Set<Integer> readSet(Scanner scanner, String setName) {
-        Set<Integer> numbers = new HashSet<>();
-        System.out.print("How many numbers in the " + setName + " set? ");
-        int count = scanner.nextInt();
-
-        for (int i = 1; i <= count; i++) {
-            System.out.print("Enter number " + i + ": ");
-            numbers.add(scanner.nextInt());
+        System.out.println("Set Operations");
+        System.out.print("How many values do you want to enter? ");
+        int n = Integer.parseInt(scanner.nextLine());
+        for (int i = 1; i <= n; i++) {
+            System.out.print("Enter value " + i + ": ");
+            String value = scanner.nextLine();
+            uniqueItems.add(value);
+            insertionOrder.add(value);
+            sortedItems.add(value);
+            counts.put(value, counts.getOrDefault(value, 0) + 1);
         }
-        return numbers;
+
+        // Different collections show uniqueness, insertion order, sorting, and frequency.
+        System.out.println("HashSet unique values: " + uniqueItems);
+        System.out.println("LinkedHashSet insertion order: " + insertionOrder);
+        System.out.println("TreeSet sorted values: " + sortedItems);
+        System.out.println("HashMap counts: " + counts);
     }
 }

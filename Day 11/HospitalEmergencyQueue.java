@@ -1,31 +1,44 @@
-import java.util.Comparator;
-import java.util.PriorityQueue;
-
-class Patient {
-    String name;
-    int emergencyLevel;
-
-    Patient(String name, int emergencyLevel) {
-        this.name = name;
-        this.emergencyLevel = emergencyLevel;
-    }
-}
+import java.util.*;
 
 public class HospitalEmergencyQueue {
-    public static void main(String[] args) {
-        PriorityQueue<Patient> queue = new PriorityQueue<Patient>(new Comparator<Patient>() {
-            public int compare(Patient first, Patient second) {
-                return second.emergencyLevel - first.emergencyLevel;
-            }
-        });
+    static class Entry {
+        String name;
+        int priority;
 
-        queue.add(new Patient("Ravi", 2));
-        queue.add(new Patient("Meena", 5));
-        queue.add(new Patient("John", 3));
-
-        while (!queue.isEmpty()) {
-            Patient patient = queue.poll();
-            System.out.println("Treating " + patient.name + " with emergency level " + patient.emergencyLevel);
+        Entry(String name, int priority) {
+            this.name = name;
+            this.priority = priority;
         }
+
+        public String toString() {
+            return name + "(priority " + priority + ")";
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Entry> records = new ArrayList<>();
+        LinkedList<String> recentActions = new LinkedList<>();
+        Stack<String> undoStack = new Stack<>();
+        PriorityQueue<Entry> queue = new PriorityQueue<>(Comparator.comparingInt(e -> e.priority));
+
+        System.out.println("Hospital Emergency Queue");
+        for (int i = 1; i <= 3; i++) {
+            System.out.print("Enter name " + i + ": ");
+            String name = scanner.nextLine();
+            System.out.print("Enter priority/rank: ");
+            int priority = Integer.parseInt(scanner.nextLine());
+            Entry entry = new Entry(name, priority);
+            records.add(entry);
+            recentActions.addFirst("Added " + name);
+            undoStack.push(name);
+            queue.offer(entry);
+        }
+
+        records.sort(Comparator.comparingInt(e -> e.priority));
+        System.out.println("Sorted records: " + records);
+        System.out.println("Recent actions: " + recentActions);
+        System.out.println("Last undo item: " + undoStack.pop());
+        System.out.println("Highest priority item: " + queue.poll());
     }
 }

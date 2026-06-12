@@ -1,35 +1,36 @@
-interface PortalUser {
-    void showDashboard();
-}
-
-class StudentUser implements PortalUser {
-    public void showDashboard() {
-        System.out.println("Student dashboard: view marks, attendance, and courses.");
-    }
-}
-
-class FacultyUser implements PortalUser {
-    public void showDashboard() {
-        System.out.println("Faculty dashboard: upload marks and manage classes.");
-    }
-}
-
-class AdminUser implements PortalUser {
-    public void showDashboard() {
-        System.out.println("Admin dashboard: manage users and announcements.");
-    }
-}
+import java.util.*;
 
 public class UniversityPortal {
-    public static void main(String[] args) {
-        PortalUser[] users = {
-            new StudentUser(),
-            new FacultyUser(),
-            new AdminUser()
-        };
+    interface Operation {
+        void execute(String input);
+    }
 
-        for (PortalUser user : users) {
-            user.showDashboard();
+    static class PrimaryOperation implements Operation {
+        public void execute(String input) {
+            System.out.println("Primary University Portal service processed: " + input);
         }
+    }
+
+    static class SecondaryOperation implements Operation {
+        public void execute(String input) {
+            System.out.println("Secondary University Portal service processed with priority: " + input);
+        }
+    }
+
+    static void runOperation(Operation operation, String input) {
+        operation.execute(input);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("University Portal");
+        System.out.print("Enter request details: ");
+        String details = scanner.nextLine();
+        System.out.print("Choose service type (1-primary, 2-secondary): ");
+        int choice = scanner.nextInt();
+
+        Operation operation = choice == 2 ? new SecondaryOperation() : new PrimaryOperation();
+        // Runtime polymorphism chooses the correct execute method.
+        runOperation(operation, details);
     }
 }

@@ -1,40 +1,54 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-class StreamEmployee {
-    private String name;
-    private double salary;
-
-    StreamEmployee(String name, double salary) {
-        this.name = name;
-        this.salary = salary;
-    }
-
-    double getSalary() {
-        return salary;
-    }
-
-    @Override
-    public String toString() {
-        return name + " - " + salary;
-    }
-}
+import java.util.*;
+import java.util.stream.*;
 
 public class EmployeeSalaryStreamSort {
-    public static void main(String[] args) {
-        List<StreamEmployee> employees = Arrays.asList(
-                new StreamEmployee("Arun", 50000),
-                new StreamEmployee("Divya", 65000),
-                new StreamEmployee("Kiran", 45000)
-        );
+    static class Employee {
+        String name;
+        String department;
+        double salary;
 
-        List<StreamEmployee> sortedEmployees = employees.stream()
-                .sorted(Comparator.comparingDouble(StreamEmployee::getSalary))
+        Employee(String name, String department, double salary) {
+            this.name = name;
+            this.department = department;
+            this.salary = salary;
+        }
+
+        public String toString() {
+            return name + "-" + department + "-" + salary;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Employee> employees = new ArrayList<>();
+        System.out.println("Employee Salary Stream Sort");
+        for (int i = 1; i <= 4; i++) {
+            System.out.print("Enter employee name: ");
+            String name = scanner.nextLine();
+            System.out.print("Enter department: ");
+            String department = scanner.nextLine();
+            System.out.print("Enter salary/score: ");
+            double salary = Double.parseDouble(scanner.nextLine());
+            employees.add(new Employee(name, department, salary));
+        }
+
+        List<String> report = employees.stream()
+                .filter(e -> e.salary >= 50000)
+                .sorted(Comparator.comparingDouble(e -> -e.salary))
+                .map(e -> e.name.toUpperCase())
+                .distinct()
+                .limit(3)
                 .collect(Collectors.toList());
 
-        System.out.println("Employees sorted by salary:");
-        sortedEmployees.forEach(System.out::println);
+        Map<String, Long> departmentCount = employees.stream()
+                .collect(Collectors.groupingBy(e -> e.department, Collectors.counting()));
+
+        OptionalDouble minSalary = employees.stream().mapToDouble(e -> e.salary).min();
+        OptionalDouble maxSalary = employees.stream().mapToDouble(e -> e.salary).max();
+
+        System.out.println("Top filtered names: " + report);
+        System.out.println("Department count: " + departmentCount);
+        System.out.println("Minimum value: " + (minSalary.isPresent() ? minSalary.getAsDouble() : 0));
+        System.out.println("Maximum value: " + (maxSalary.isPresent() ? maxSalary.getAsDouble() : 0));
     }
 }
